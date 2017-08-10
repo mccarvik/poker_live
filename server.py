@@ -1,5 +1,5 @@
-import asyncio
-from config import HOST, PORT
+import asyncio, pdb
+from config import HOST, PORT, parse_recvd_data, prep_msg
 
 players = []
 
@@ -16,6 +16,28 @@ class PokerServerProtocol(asyncio.Protocol):
         self._rest = b''
         players.append(self)
         print('Connection from {}'.format(self.addr))
+    
+    def data_received(self, data):
+        """
+        Handle data as it's received. Broadcast complete messages to all other
+        clients
+
+        """
+        # pdb.set_trace()
+        # data = self._rest + data
+        (msgs, rest) = parse_recvd_data(data)
+        # self._rest = rest
+        # for msg in msgs:
+        msg = '{}: {}'.format(self.addr, msgs)
+        print(msg)
+        msg = prep_msg(msg)
+        for player in players:
+            player.transport.write(msg)  # <-- non-blocking
+
+    def connection_lost(self, ex):
+        """ Called on client disconnect. Clean up client state """
+        print('Client {} disconnected'.format(self.addr))
+        players.remove(self)
 
 if __name__ == '__main__':
     loop = asyncio.get_event_loop()

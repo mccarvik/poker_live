@@ -25,7 +25,6 @@ def recv_msgs(sock, data=bytes()):
     return received messages
 
     """
-    # print('here2 with socket:   ', sock)
     # pdb.set_trace()
     msgs = []
     while not msgs:
