@@ -1,4 +1,4 @@
-import socket, pdb
+import socket
 
 HOST = ''
 PORT = 4040
@@ -25,7 +25,6 @@ def recv_msgs(sock, data=bytes()):
     return received messages
 
     """
-    # pdb.set_trace()
     msgs = []
     while not msgs:
         recvd = sock.recv(4040)  # <-- Blocks
@@ -42,7 +41,6 @@ def recv_msg(sock):
     b'\0' as message delimiter
 
     """
-    print('here2 with socket:   ', sock)
     data = bytearray()
     msg = ''
     # Repeatedly read 4096 bytes off the socket, storing the bytes
@@ -70,3 +68,4 @@ def send_msg(sock, msg):
     """ Send a string over a socket, preparing it first """
     data = prep_msg(msg)
     sock.sendall(data)
+    # sock.send(data)

@@ -23,16 +23,19 @@ class PokerServerProtocol(asyncio.Protocol):
         clients
 
         """
-        # pdb.set_trace()
-        # data = self._rest + data
+        data = self._rest + data
         (msgs, rest) = parse_recvd_data(data)
-        # self._rest = rest
-        # for msg in msgs:
-        msg = '{}: {}'.format(self.addr, msgs)
-        print(msg)
-        msg = prep_msg(msg)
+        self._rest = rest
+        for msg in msgs:
+            msg = '{}: {}'.format(self.addr, msg)
+            print(msg)
+            msg = prep_msg(msg)
+            
+            # writes to all players, should just write to one
         for player in players:
-            player.transport.write(msg)  # <-- non-blocking
+            if player.addr == self.addr:
+                player.transport.write(msg)  # <-- non-blocking
+                player.transport.write(b'Got Message')
 
     def connection_lost(self, ex):
         """ Called on client disconnect. Clean up client state """
