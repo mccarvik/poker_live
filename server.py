@@ -31,11 +31,11 @@ class PokerServerProtocol(asyncio.Protocol):
             print(msg)
             msg = prep_msg(msg)
             
-            # writes to all players, should just write to one
+        # writes to just the player who sent message
         for player in players:
             if player.addr == self.addr:
-                player.transport.write(msg)  # <-- non-blocking
-                player.transport.write(b'Got Message')
+                # player.transport.write(msg)  # <-- non-blocking
+                player.transport.write(prep_msg('ACK'))
 
     def connection_lost(self, ex):
         """ Called on client disconnect. Clean up client state """
