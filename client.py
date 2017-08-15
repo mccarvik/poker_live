@@ -1,7 +1,9 @@
 import sys, socket, threading
 from config import HOST, PORT, send_msg, recv_msgs
+from run import create_client
 
-HOST = sys.argv[-1] if len(sys.argv) > 1 else '127.0.0.1'
+# HOST = sys.argv[-1] if len(sys.argv) > 1 else '127.0.0.1'
+HOST = HOST
 PORT = PORT
 
 def handle_input(sock):
@@ -21,9 +23,15 @@ def handle_input(sock):
             break
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        client_no = sys.argv[1]
+    else:
+        client_no = 0
+        
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.connect((HOST, PORT))
     print('Connected to {}:{}'.format(HOST, PORT))
+    create_client(client_no)
 
     # Create thread for handling user input and message sending
     thread = threading.Thread(target=handle_input,
