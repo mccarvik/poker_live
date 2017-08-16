@@ -1,5 +1,11 @@
+<!-- extend base layout -->
 {% extends "base.html" %}
-<!DOCTYPE html>
-<html>
-    TEST HOME
-</html>
+
+{% block content %}
+    <script src="/js/send_action.js"></script>
+    <div>
+        <label>HEEERRRREE</label>
+        TEST HOME
+        <button onclick="send_action(event, '{{ SECRET_KEY }}');">Send Action</button>
+    <div>
+{% endblock %}

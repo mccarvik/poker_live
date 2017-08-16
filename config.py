@@ -27,7 +27,10 @@ def recv_msgs(sock, data=bytes()):
     """
     msgs = []
     while not msgs:
-        recvd = sock.recv(4040)  # <-- Blocks
+        try:
+            recvd = sock.recv(4040)
+        except:
+            continue
         if not recvd:
             raise ConnectionError()
         data = data + recvd

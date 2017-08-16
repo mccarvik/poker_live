@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Texas Hold'em</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}"/>
-</head>
+    <head>
+        <title>Texas Hold'em</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}"/>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="static/js/send_action.js"></script>
+    </head>
+    <body>
+        <div>
+            <label>HEEERRRREE</label>
+            TEST HOME
+            <button onclick="send_action(event, '{{ SECRET_KEY }}');">Send Action</button>
+        <div>
+    </body>
+</html>
