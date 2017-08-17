@@ -44,6 +44,7 @@ def recv_msg(sock):
     b'\0' as message delimiter
 
     """
+    print('here')
     data = bytearray()
     msg = ''
     # Repeatedly read 4096 bytes off the socket, storing the bytes
