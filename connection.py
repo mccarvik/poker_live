@@ -27,10 +27,13 @@ def create_connection(cur_game_state):
     
     # pool = ThreadPool(processes=2)
     # async_result = pool.apply_async(recv_msgs, (sock, rest))
-    thread = threading.Thread(target=handle_input,
-                              args=[sock],
-                              daemon=True)
-    thread.start()
+    if cur_game_state:
+        handle_input(sock, cur_game_state)
+        
+    # thread = threading.Thread(target=handle_input,
+    #                           args=[sock],
+    #                           daemon=True)
+    # thread.start()
     rest = bytes()
     addr = sock.getsockname()
     # Loop indefinitely to receive messages from server
