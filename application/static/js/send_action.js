@@ -1,5 +1,5 @@
 
-function send_action(event, action, bet, key) {
+function send_action(event, action, bet, player, key) {
     /*
     * This function will continuously loop waiting for messages from the server
     * The http call will connect and disconnect from the server each time a msg is received
@@ -18,7 +18,9 @@ function send_action(event, action, bet, key) {
             url: '/action',
             data: {
                 action: action,
-                bet: bet },
+                bet: bet,
+                player: player
+            },
         }).done(function(data) {
             console.log('Finished');
             if (data['turn'] === turn) {

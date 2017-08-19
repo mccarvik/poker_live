@@ -1,5 +1,5 @@
 import pdb
-from app.deck_utils.card import Card
+from application.deck_utils.card import Card
 
 class Deck():
     ''' Class to represent a deck of cards '''

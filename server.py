@@ -1,7 +1,7 @@
 import asyncio, pdb, time
 from config import HOST, PORT, parse_recvd_data, prep_msg
 from application.gameplay.game import Game
-from application.gameplay.game import Player
+# from application.gameplay.game import Player
 
 players = []
 
@@ -10,9 +10,6 @@ class PokerServerProtocol(asyncio.Protocol):
     Each instance of class represents a client and the socket
     connection to it
     """
-    
-    def __init__(self):
-        self._game = Game()
     
     def connection_made(self, transport):
         """ Called on instantiation, when new client connects """
@@ -31,6 +28,9 @@ class PokerServerProtocol(asyncio.Protocol):
         data = self._rest + data
         (msgs, rest) = parse_recvd_data(data)
         self._rest = rest
+        pdb.set_trace()
+        self._game.accept_action(msgs[0].decode('utf-8').split(","))
+        
         for msg in msgs:
             msg = '{}: {}'.format(self.addr, msg)
             print(msg)
@@ -49,12 +49,14 @@ class PokerServerProtocol(asyncio.Protocol):
         players.remove(self)
 
 if __name__ == '__main__':
+    game = Game()
     loop = asyncio.get_event_loop()
     # Create server and initialize on the event loop
     coroutine = loop.create_server(PokerServerProtocol,
                                    host=HOST,
                                    port=PORT)
     server = loop.run_until_complete(coroutine)
+    pdb.set_trace()
     # print listening socket info
     for socket in server.sockets:
         addr = socket.getsockname()

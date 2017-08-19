@@ -6,6 +6,7 @@ sys.path.append("/home/ubuntu/workspace/poker_live")
 sys.path.append("/usr/local/lib/python3.4/dist-packages")
 from flask import Flask
 from application import app
+from application import views
 
 def create_client(i):
     PORT = 8080 + int(i)

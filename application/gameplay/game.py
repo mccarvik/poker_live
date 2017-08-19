@@ -1,9 +1,10 @@
 import sys,pdb
 from application.deck_utils.deck import Deck
 from application.deck_utils.card import Card
+from application.gameplay.player import Player
 
 
-class Game() {
+class Game():
     """
     
     """
@@ -12,12 +13,13 @@ class Game() {
         self._board = []
         self._deck = Deck()
         self._button = 0
-        self._turn = 
+        self._turn = 0
         self._pot = 0
         self._current_bets = [0] * len(self._players)
     
     def reset_hand(self):
         self._deck.initialize()
+        self._button += 1
         self._button = self._button % len(self._players)
         self._turn = (self._button + 2) % len(self._players)
         self._pot = 0
@@ -29,10 +31,19 @@ class Game() {
     def deal_card(self):
         return deck.drawRandom()
     
-    def add_player(self, p):
+    def add_player(self, player_id, money):
+        p = Player(int(player_id), float(money))
         self._players.append(p)
     
-    def accept_action(self, action, val):
+    def accept_action(self, action):
+        if action[0] == 'j':
+            self.add_player(action[2], action[1])
+            return
+    
+        if action[0] == 's':
+            self.reset_hand()
+            return
+        
         if action == 'ch':
             pass
     
@@ -42,4 +53,3 @@ class Game() {
         situation['board'] = self._board
         situation['button'] = self._button
         situation['pot'] = self._pot
-}
