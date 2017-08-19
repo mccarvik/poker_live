@@ -35,9 +35,8 @@ class PokerServerProtocol(asyncio.Protocol):
         for player in players:
             if player.addr == self.addr:
                 # player.transport.write(msg)  # <-- non-blocking
-                # player.transport.write(prep_msg('ACK'))
                 time.sleep(10)
-                player.transport.write(prep_msg('ACK2'))
+                player.transport.write(prep_msg('ACK'))
 
     def connection_lost(self, ex):
         """ Called on client disconnect. Clean up client state """

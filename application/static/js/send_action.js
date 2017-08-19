@@ -1,8 +1,9 @@
 
-function send_action() {
+function send_action(action) {
     /*
     * This function will continuously loop waiting for messages from the server
     * The http call will connect and disconnect from the server each time a msg is received
+    * The ajax will block waiting for the success function to run
     * Client will have to know when its his turn by seeing if turn = his id #
     * This is when the loop will break as no msg could be received now and when an
     * action is taken it will restart the loop
@@ -17,7 +18,7 @@ function send_action() {
             type: 'GET',
             url: '/action',
             data: {
-                action: "get_data" },
+                action: action },
             success: function(data)
             {
                 if (data['turn'] === turn) {
