@@ -1,5 +1,7 @@
 import asyncio, pdb, time
 from config import HOST, PORT, parse_recvd_data, prep_msg
+from application.gameplay.game import Game
+from application.gameplay.game import Player
 
 players = []
 
@@ -8,6 +10,9 @@ class PokerServerProtocol(asyncio.Protocol):
     Each instance of class represents a client and the socket
     connection to it
     """
+    
+    def __init__(self):
+        self._game = Game()
     
     def connection_made(self, transport):
         """ Called on instantiation, when new client connects """
@@ -35,7 +40,7 @@ class PokerServerProtocol(asyncio.Protocol):
         for player in players:
             if player.addr == self.addr:
                 # player.transport.write(msg)  # <-- non-blocking
-                time.sleep(25)
+                # time.sleep(25)
                 player.transport.write(prep_msg('ACK'))
 
     def connection_lost(self, ex):

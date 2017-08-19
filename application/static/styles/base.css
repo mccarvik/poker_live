@@ -1,5 +1,6 @@
 body {
     background-image: url('/static/imgs/table.jpg');
     background-repeat:no-repeat;
-    background-size:cover;
+    /*background-size:cover;*/
+    background-size: 1000px 750px
 }

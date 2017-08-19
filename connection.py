@@ -1,4 +1,4 @@
-import sys, socket, threading, time
+import sys, socket, threading, time, pdb
 from config import HOST, PORT, send_msg, recv_msgs
 from multiprocessing.pool import ThreadPool
 
@@ -11,6 +11,7 @@ def handle_input(sock, msg):
     """ Prompt user for message and send it to server """
     # print("Type messages, enter to send. 'q' to quit")
     print("handle input")
+    msg = ",".join(msg)
     send_msg(sock, msg)  # Blocks until sent
     
     
@@ -40,7 +41,6 @@ def create_connection(cur_game_state):
     while True:
         try:
             (msgs, rest) = recv_msgs(sock, rest)  # blocks
-            print("cant get here")
             for msg in msgs:
                 print(msg)
             return msg

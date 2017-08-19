@@ -1,5 +1,5 @@
 
-function send_action() {
+function send_action(event, action, bet, key) {
     /*
     * This function will continuously loop waiting for messages from the server
     * The http call will connect and disconnect from the server each time a msg is received
@@ -8,8 +8,6 @@ function send_action() {
     * This is when the loop will break as no msg could be received now and when an
     * action is taken it will restart the loop
     */
-    var act = 'ch';
-    var bet = '0';
     console.log('Enter action function');
     var breaker = false;
     var turn = 1;
@@ -19,7 +17,7 @@ function send_action() {
             type: 'GET',
             url: '/action',
             data: {
-                action: act,
+                action: action,
                 bet: bet },
         }).done(function(data) {
             console.log('Finished');
