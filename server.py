@@ -1,4 +1,4 @@
-import asyncio, pdb, time
+import asyncio, pdb, time, json
 from config import HOST, PORT, parse_recvd_data, prep_msg
 from application.gameplay.game import Game
 # from application.gameplay.game import Player
@@ -28,8 +28,7 @@ class PokerServerProtocol(asyncio.Protocol):
         data = self._rest + data
         (msgs, rest) = parse_recvd_data(data)
         self._rest = rest
-        pdb.set_trace()
-        game.accept_action(msgs[0].decode('utf-8').split(","))
+        situation = game.accept_action(msgs[0].decode('utf-8').split(","))
         
         for msg in msgs:
             msg = '{}: {}'.format(self.addr, msg)
@@ -39,9 +38,9 @@ class PokerServerProtocol(asyncio.Protocol):
         # writes to just the player who sent message
         for player in players:
             if player.addr == self.addr:
-                # player.transport.write(msg)  # <-- non-blocking
                 # time.sleep(25)
-                player.transport.write(prep_msg('ACK'))
+                # pdb.set_trace()
+                player.transport.write(prep_msg(json.dumps(situation)))
 
     def connection_lost(self, ex):
         """ Called on client disconnect. Clean up client state """

@@ -8,7 +8,7 @@ function send_action(event, action, bet, player, key) {
     * This is when the loop will break as no msg could be received now and when an
     * action is taken it will restart the loop
     */
-    console.log('Enter action function');
+    console.log('Action function: ' + action + " " + bet + " " + player);
     var breaker = false;
     var turn = 1;
     while (true) {
@@ -28,7 +28,6 @@ function send_action(event, action, bet, player, key) {
             }
             template_returned = true;
         });
-        console.log('call');
         if (!template_returned || breaker) {
             break;
         }

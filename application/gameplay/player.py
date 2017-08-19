@@ -21,4 +21,10 @@ class Player():
     def fold(self):
         self._cards = []
     
+    def info(self):
+        if self.has_cards():
+            return [self._id, self._money, str(self._cards[0]), str(self._cards[1])]
+        else:
+            return [self._id, self._money, None, None]
+    
     

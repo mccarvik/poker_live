@@ -12,8 +12,8 @@ class Game():
         self._players = []
         self._board = []
         self._deck = Deck()
-        self._button = 0
-        self._turn = 0
+        self._button = -1
+        self._turn = -1
         self._pot = 0
         self._current_bets = [0] * len(self._players)
     
@@ -24,26 +24,30 @@ class Game():
         self._turn = (self._button + 2) % len(self._players)
         self._pot = 0
         self._current_bets = [0] * len(self._players)
+        self.deal_cards()
     
     def deal_board_card(self):
-        board.append(self.deal_card())
+        self._board.append(self._deck.drawRandom())
     
-    def deal_card(self):
-        return deck.drawRandom()
+    def deal_cards(self):
+        for p in self._players:
+            card1 = self._deck.drawRandom()
+            card2 = self._deck.drawRandom()
+            p.receive_cards([card1, card2])
     
     def add_player(self, player_id, money):
         p = Player(int(player_id), float(money))
         self._players.append(p)
     
     def accept_action(self, action):
-        pdb.set_trace()
         if action[0] == 'j':
             self.add_player(action[2], action[1])
-            return
+            return self.getSituation()
     
         if action[0] == 's':
+            pdb.set_trace()
             self.reset_hand()
-            return
+            return self.getSituation()
         
         if action == 'ch':
             pass
@@ -54,3 +58,12 @@ class Game():
         situation['board'] = self._board
         situation['button'] = self._button
         situation['pot'] = self._pot
+        situation['turn'] = self._turn
+        situation['players'] = self.playerSituation()
+        return situation
+    
+    def playerSituation(self):
+        plys = []
+        for p in self._players:
+            plys.append(p.info())
+        return plys
