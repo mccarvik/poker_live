@@ -10,13 +10,17 @@ from connection import create_connection
 def base():
     return render_template('base.html', title='Texas Hold\'em')
 
-@app.route("/action")
-def action(cur_game_state='test'):
+@app.route("/action", methods=['GET', 'POST'])
+def action():
     """
         Will create a connection with the server, send the action data,
         and wait for a server response. Then collect data for rendering
         template and close the connection until the next action
     """
-    new_game_state = create_connection(cur_game_state)
+    print(request)
+    pdb.set_trace()
+    action = [request.values['action'], request.values['bet']]
+    print(action)
+    new_game_state = create_connection(action)
     print("This is the new game state: ", new_game_state)
     return render_template('base.html', title='Texas Hold\'em')
