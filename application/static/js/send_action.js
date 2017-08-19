@@ -18,7 +18,7 @@ function send_action(action) {
             type: 'GET',
             url: '/action',
             data: {
-                action: action },
+                action: 'get data' },
             success: function(data)
             {
                 if (data['turn'] === turn) {
