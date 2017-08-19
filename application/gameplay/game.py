@@ -36,6 +36,7 @@ class Game():
         self._players.append(p)
     
     def accept_action(self, action):
+        pdb.set_trace()
         if action[0] == 'j':
             self.add_player(action[2], action[1])
             return

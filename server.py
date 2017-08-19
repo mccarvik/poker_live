@@ -29,7 +29,7 @@ class PokerServerProtocol(asyncio.Protocol):
         (msgs, rest) = parse_recvd_data(data)
         self._rest = rest
         pdb.set_trace()
-        self._game.accept_action(msgs[0].decode('utf-8').split(","))
+        game.accept_action(msgs[0].decode('utf-8').split(","))
         
         for msg in msgs:
             msg = '{}: {}'.format(self.addr, msg)
@@ -56,7 +56,6 @@ if __name__ == '__main__':
                                    host=HOST,
                                    port=PORT)
     server = loop.run_until_complete(coroutine)
-    pdb.set_trace()
     # print listening socket info
     for socket in server.sockets:
         addr = socket.getsockname()
