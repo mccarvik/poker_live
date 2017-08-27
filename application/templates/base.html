@@ -1,21 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="poker">
     <head>
+        <!--<form role="form" ng-submit="getResults()">-->
+        
+        
+        
+        
+        
         <title>Texas Hold'em</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}"/>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.1/angular.min.js"></script>
+      
+        <!--Then bootstrap in order of most general to most specific-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+        
+        <!-- Local Stuff -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}"/>
+        <script src="static/js/main.js"></script>
         <script src="static/js/send_action.js"></script>
     </head>
-    <body>
-        <div>
-            TEST HOME
-            <button onclick="send_action(event, 'j', '1000', '0', '{{ SECRET_KEY }}');">Join Game</button>
-            <button onclick="send_action(event, 's', '0', '0', '{{ SECRET_KEY }}');">Start Game</button>
-            <button onclick="send_action(event, 'ch', '0', '0', '{{ SECRET_KEY }}');">Check</button>
-            <button onclick="send_action(event, 'b', '50', '0', '{{ SECRET_KEY }}');">Bet</button>
-            <button onclick="send_action(event, 'c', '0', '0', '{{ SECRET_KEY }}');">Call</button>
-            <button onclick="send_action(event, 'r', '100', '0', '{{ SECRET_KEY }}');">Raise</button>
-            <button onclick="send_action(event, 'f', '0', '0', '{{ SECRET_KEY }}');">Fold</button>
-        <div>
+    <body ng-controller="PokerController">
+        <div id='config_div'>
+            <button id='join_btn' class='btn btn-basic' ng-click="send_action('j', '1000')">Join Game</button>
+            <button id='start_btn' class='btn btn-basic' ng-click="send_action('s', '0')">Start Game</button>
+        <div id='action_div'>
+            <button id='check_btn' class='btn btn-info' ng-click="send_action('ch', '0')">Check</button>
+            <button id='bet_btn' class='btn btn-warning' ng-click="send_action('b', '50')">Bet</button>
+            <input type="text" class='input_text' id="bet_text">
+            <button id='call_btn' class='btn btn-primary' ng-click="send_action('c', '50')">Call</button>
+            <button id='raise_btn' class='btn btn-warning' ng-click="send_action('r', '100')">Raise</button>
+            <input type="text" class='input_text' id="raise_text">
+            <button id='fold_btn' class='btn btn-danger' ng-click="send_action('f', '0')">Fold</button>
+        </div>
     </body>
 </html>

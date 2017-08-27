@@ -34,7 +34,9 @@ class PokerServerProtocol(asyncio.Protocol):
             msg = '{}: {}'.format(self.addr, msg)
             print(msg)
             msg = prep_msg(msg)
-            
+
+
+        print(situation)
         # writes to just the player who sent message
         for player in players:
             if player.addr == self.addr:

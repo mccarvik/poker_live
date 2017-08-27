@@ -1,5 +1,5 @@
 
-function send_action(event, action, bet, player, key) {
+function send_action(event, action, bet, key) {
     /*
     * This function will continuously loop waiting for messages from the server
     * The http call will connect and disconnect from the server each time a msg is received
@@ -8,7 +8,7 @@ function send_action(event, action, bet, player, key) {
     * This is when the loop will break as no msg could be received now and when an
     * action is taken it will restart the loop
     */
-    console.log('Action function: ' + action + " " + bet + " " + player);
+    console.log('Action function: ' + action + " " + bet);
     var breaker = false;
     var turn = 1;
     while (true) {
@@ -19,7 +19,6 @@ function send_action(event, action, bet, player, key) {
             data: {
                 action: action,
                 bet: bet,
-                player: player
             },
         }).done(function(data) {
             console.log('Finished');

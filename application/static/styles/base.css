@@ -4,3 +4,21 @@ body {
     /*background-size:cover;*/
     background-size: 1000px 750px
 }
+
+div#config_div {
+    margin : 25px;
+}
+
+#bet_text {
+    margin-right : 75px;
+}
+
+.input_text {
+    width : 50px;
+}
+
+div#action_div {
+    position : absolute;
+    left : 250px;
+    top : 450px;
+}
