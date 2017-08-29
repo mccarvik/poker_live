@@ -19,6 +19,48 @@ div#config_div {
 
 div#action_div {
     position : absolute;
-    left : 250px;
+    left : 270px;
     top : 450px;
+}
+
+img.card_img {
+    position : absolute;
+    width : 90px;
+    height : 120px;
+    padding : 5px;    
+}
+
+.card_img#board1 {
+    left : 260px;
+    top : 290px;
+}
+
+.card_img#board2 {
+    left : 360px;
+    top : 290px;    
+}
+
+.card_img#board3 {
+    left : 460px;
+    top : 290px;
+}
+
+.card_img#board4 {
+    left : 560px;
+    top : 290px;
+}
+
+.card_img#board5 {
+    left : 660px;
+    top : 290px;
+}
+
+.card_img#player11 {
+    left : 360px;
+    top : 290px;
+}
+
+.card_img#player11 {
+    left : 660px;
+    top : 290px;
 }

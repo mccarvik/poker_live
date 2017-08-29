@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html ng-app="poker">
     <head>
-        <!--<form role="form" ng-submit="getResults()">-->
-        
-        
-        
-        
-        
         <title>Texas Hold'em</title>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.1/angular.min.js"></script>
@@ -33,5 +27,15 @@
             <input type="text" class='input_text' id="raise_text">
             <button id='fold_btn' class='btn btn-danger' ng-click="send_action('f', '0')">Fold</button>
         </div>
+        
+        
+        
+        
+        <!--Card Images have absolute locations-->
+        <img id='board1' class='card_img' ng-src=""/>
+        <img id='board2' class='card_img' ng-src=""/>
+        <img id='board3' class='card_img' ng-src=""/>
+        <img id='board4' class='card_img' ng-src=""/>
+        <img id='board5' class='card_img' ng-src=""/>
     </body>
 </html>
