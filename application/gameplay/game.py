@@ -1,4 +1,4 @@
-import sys,pdb
+import sys, pdb
 from application.deck_utils.deck import Deck
 from application.deck_utils.card import Card
 from application.gameplay.player import Player
@@ -9,6 +9,7 @@ class Game():
     
     """
     def __init__(self):
+        self._start = False
         self._players = []
         self._board = []
         self._deck = Deck()
@@ -16,6 +17,14 @@ class Game():
         self._turn = -1
         self._pot = 0
         self._current_bets = [0] * len(self._players)
+    
+    
+    # Need these two for game flow when game first created
+    def start_game(self):
+        self._start = True
+    
+    def is_game_start(self):
+        return self._start
     
     def reset_hand(self):
         self._deck.initialize()
@@ -45,7 +54,6 @@ class Game():
             return self.getSituation()
     
         if action[0] == 's':
-            pdb.set_trace()
             self.reset_hand()
             return self.getSituation()
         

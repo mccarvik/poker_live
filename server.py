@@ -37,12 +37,21 @@ class PokerServerProtocol(asyncio.Protocol):
 
 
         print(situation)
-        # writes to just the player who sent message
+        # If player just joined, wait for someone to push the "start game" button
+        if msgs[0].decode('utf-8').split(",")[0] == 'j' and game.is_game_start():
+            return
+        game.start_game()
+        # pdb.set_trace()
+        # # writes to just the player who sent message
+        # for player in players:
+        #     if player.addr == self.addr:
+        #         # time.sleep(25)
+        #         # pdb.set_trace()
+        #         player.transport.write(prep_msg(json.dumps(situation)))
+        
+        # write to all players as they all need to be updated on game state
         for player in players:
-            if player.addr == self.addr:
-                # time.sleep(25)
-                # pdb.set_trace()
-                player.transport.write(prep_msg(json.dumps(situation)))
+            player.transport.write(prep_msg(json.dumps(situation)))
 
     def connection_lost(self, ex):
         """ Called on client disconnect. Clean up client state """

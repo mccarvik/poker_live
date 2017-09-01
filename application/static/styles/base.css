@@ -55,12 +55,22 @@ img.card_img {
     top : 290px;
 }
 
-.card_img#player11 {
-    left : 360px;
-    top : 290px;
+.card_img#pl_card_11 {
+    left : 350px;
+    top : 100px;
 }
 
-.card_img#player11 {
-    left : 660px;
-    top : 290px;
+.card_img#pl_card_12 {
+    left : 370px;
+    top : 100px;
+}
+
+.card_img#pl_card_21 {
+    left : 540px;
+    top : 100px;
+}
+
+.card_img#pl_card_22 {
+    left : 560px;
+    top : 100px;
 }

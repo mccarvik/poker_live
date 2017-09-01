@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="poker">
     <head>
-        <title>Texas Hold'em</title>
+        <title>{{ title }}</title>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.1/angular.min.js"></script>
       
@@ -12,7 +12,6 @@
         <!-- Local Stuff -->
         <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}"/>
         <script src="static/js/main.js"></script>
-        <script src="static/js/send_action.js"></script>
     </head>
     <body ng-controller="PokerController">
         <div id='config_div'>
@@ -28,14 +27,16 @@
             <button id='fold_btn' class='btn btn-danger' ng-click="send_action('f', '0')">Fold</button>
         </div>
         
-        
-        
-        
         <!--Card Images have absolute locations-->
         <img id='board1' class='card_img' ng-src=""/>
         <img id='board2' class='card_img' ng-src=""/>
         <img id='board3' class='card_img' ng-src=""/>
         <img id='board4' class='card_img' ng-src=""/>
         <img id='board5' class='card_img' ng-src=""/>
+        
+        <img id='pl_card_11' class='card_img' ng-src="{[ cards['01'] ]}"/>
+        <img id='pl_card_12' class='card_img' ng-src="{[ cards['02'] ]}"/>
+        <img id='pl_card_21' class='card_img' ng-src="{[ cards['11'] ]}"/>
+        <img id='pl_card_22' class='card_img' ng-src="{[ cards['12'] ]}"/>
     </body>
 </html>

@@ -8,7 +8,7 @@ from connection import create_connection
 
 @app.route('/')
 def base():
-    return render_template('base.html', title='Texas Hold\'em')
+    return render_template('base.html', title='Player %s' % str(int(request.environ['SERVER_PORT']) - 8079))
 
 @app.route("/action", methods=['GET', 'POST'])
 def action():
@@ -17,9 +17,10 @@ def action():
         and wait for a server response. Then collect data for rendering
         template and close the connection until the next action
     """
+    
     player_id = str(int(request.environ['SERVER_PORT']) - 8080)
     action = [request.values['action'], request.values['bet'], player_id]
     print(action)
     new_game_state = create_connection(action)
     print("This is the new game state: ", new_game_state)
-    return render_template('base.html', title='Texas Hold\'em')
+    return new_game_state
