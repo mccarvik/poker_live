@@ -28,12 +28,13 @@ class PokerServerProtocol(asyncio.Protocol):
         data = self._rest + data
         (msgs, rest) = parse_recvd_data(data)
         self._rest = rest
-        situation = game.accept_action(msgs[0].decode('utf-8').split(","))
+        action = msgs[0].decode('utf-8').split(",")
+        situation = game.accept_action(action)
         
         for msg in msgs:
             msg = '{}: {}'.format(self.addr, msg)
             print(msg)
-            msg = prep_msg(msg)
+            # msg = prep_msg(msg)
 
 
         print(situation)

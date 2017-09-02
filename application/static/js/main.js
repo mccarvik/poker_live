@@ -10,6 +10,7 @@
 
     .controller('PokerController', function($scope, $compile) {
         console.log("In poker controller");
+        $scope.id = null;
         $scope.vals = [
             'A',
             'K',
@@ -104,6 +105,10 @@
                     },
                 }).done(function(data, textStatus, jqXHR, aaa) {
                     console.log('Received Update');
+                    data = JSON.parse(data);
+                    if (action === 'j') {
+                        $scope.id = parseInt(data['player_id']);
+                    }
                     $scope.process_response(data);
                     if ($scope['turn'] === turn) {
                             breaker=true;
@@ -117,7 +122,6 @@
         }
         
         $scope.process_response = function(game_state) {
-            game_state = JSON.parse(game_state);
             console.log(game_state);
             
             $scope.$apply(function() {
@@ -126,8 +130,15 @@
                 for (var i=0; i < players.length; i++) {
                     var id = players[i][0]
                     $scope.money[id] = players[i][1]
-                    $scope.cards[id+"1"] = 'static/imgs/' + players[i][2].toUpperCase() + ".png"
-                    $scope.cards[id+"2"] = 'static/imgs/' + players[i][3].toUpperCase() + ".png"
+                    if (players[i][2] !== "") {
+                        if (id === $scope.id) {
+                            $scope.cards[id+"1"] = 'static/imgs/' + players[i][2].toUpperCase() + ".png";
+                            $scope.cards[id+"2"] = 'static/imgs/' + players[i][3].toUpperCase() + ".png";
+                        } else {
+                            $scope.cards[id+"1"] = 'static/imgs/back.jpg';
+                            $scope.cards[id+"2"] = 'static/imgs/back.jpg';
+                        }
+                    }
                 }
                 
                 var current_bets = game_state['current_bets'];

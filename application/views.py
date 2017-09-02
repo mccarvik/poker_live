@@ -22,5 +22,8 @@ def action():
     action = [request.values['action'], request.values['bet'], player_id]
     print(action)
     new_game_state = create_connection(action)
+    new_game_state = json.loads(new_game_state)
+    new_game_state['player_id'] = player_id
+    new_game_state = json.dumps(new_game_state)
     print("This is the new game state: ", new_game_state)
     return new_game_state
