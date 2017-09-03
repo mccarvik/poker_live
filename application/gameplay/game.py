@@ -2,10 +2,13 @@ import os, sys, pdb
 # Need this to set up modules
 sys.path.append("/home/ubuntu/workspace/poker_live")
 sys.path.append("/usr/local/lib/python3.4/dist-packages")
+sys.path.append("/usr/local/lib/python3/dist-packages")
 
 from application.deck_utils.deck import Deck
 from application.deck_utils.card import Card
 from application.gameplay.player import Player
+from application.deck_utils.deck_funcs import evaluateWinner
+from application.deck_utils.hand_rules import HandRules
 
 
 class Game():
@@ -22,7 +25,6 @@ class Game():
         self._pot = 0
         self._small_blind = 5
         self._current_bets = [0] * len(self._players)
-    
     
     # Need these two for game flow when game first created
     def start_game(self):
@@ -159,8 +161,24 @@ class Game():
         return True
     
     def cleanUp(self):
-        p_id = self.getIDsPlayersLeft()[0]
-        self._players[p_id]._money += sum(self._current_bets) + self._pot
+        if len(self.getIDsPlayersLeft()) == 1:
+            p_id = self.getIDsPlayersLeft()[0]
+        else:
+            pdb.set_trace()
+            res = []
+            for p in self.getIDsPlayersLeft():
+                res.append(HandRules(self._players[p]._cards + self._board)._result)
+            winner = evaluateWinner(res)
+        
+        ties = len([x for x in winner if x==0])
+        if ties > 0:
+            for w, p in zip(winner, self.getIDsPlayersLeft()):
+                if w == 0:
+                    self._players[p]._money += (sum(self._current_bets) + self._pot) / ties
+        else:
+            for w, p in zip(winner, self.getIDsPlayersLeft()):
+                if w == 1:
+                    self._players[p]._money += (sum(self._current_bets) + self._pot)
     
     def nextRound(self):
         self._pot += sum(self._current_bets)
@@ -191,7 +209,6 @@ class Game():
     def getLastPlayer(self):
         last = ""
         if self._board != []:
-            pdb.set_trace()
             for p in self.getIDsPlayersLeft():
                 if p <= self._button:
                     last = p

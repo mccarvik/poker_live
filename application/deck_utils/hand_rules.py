@@ -1,7 +1,9 @@
-import pdb
+import os, sys, pdb
+# Need this to set up modules
+sys.path.append("/usr/lib/python3/dist-packages")
 import numpy as np
-from scipy.stats import mode
-from app.deck_utils.deck_funcs import VAL_MAP
+# from scipy.stats import mode
+from application.deck_utils.deck_funcs import VAL_MAP
 
 
 
@@ -46,9 +48,9 @@ class HandRules():
         return result
         
     def checkFlush(self):
-        max_suit = mode([n._suit for n in self._hand])
-        if max_suit[1][0] > 4:
-            return (5, [n for n in self._hand if n._suit == max_suit[0][0]])
+        max_suit = self.get_mode([n._suit for n in self._hand])
+        if max_suit[0][0] > 4:
+            return (5, [n for n in self._hand if n._suit == max_suit[0][1]])
         else:
             return None
     
@@ -71,29 +73,29 @@ class HandRules():
     
     def checkPairs(self):
         hand = self._hand
-        mode_card = mode([n._val for n in hand])
+        mode_card = self.get_mode([n._val for n in hand])
         
-        if mode_card[1][0] == 4:
-            left = [c for c in hand if c._val != mode_card[0][0]]
-            return (7, [VAL_MAP[mode_card[0][0]], left[0]])
-        elif mode_card[1][0] == 1:
+        if mode_card[0][0] == 4:
+            left = [c for c in hand if c._val != mode_card[0][1]]
+            return (7, [VAL_MAP[mode_card[0][1]], left[0]])
+        elif mode_card[0][0] == 1:
             return (0, self._hand[:5])
-        elif mode_card[1][0] == 3:
-            trip = mode_card[0][0]
+        elif mode_card[0][0] == 3:
+            trip = mode_card[0][1]
             hand = [h for h in hand if h._val != trip]
-            mode_2 = mode([n._val for n in hand])
-            if mode_2[1][0] > 1:
-                pair = mode_2[0][0]
+            mode_2 = self.get_mode([n._val for n in hand])
+            if mode_2[0][0] > 1:
+                pair = mode_2[0][1]
                 return (6, [VAL_MAP[trip], VAL_MAP[pair]])
             else:
                 left = hand[:2]
                 return (3, [VAL_MAP[trip]] + left)
-        elif mode_card[1][0] == 2:
-            pair = mode_card[0][0]
+        elif mode_card[0][0] == 2:
+            pair = mode_card[0][1]
             hand = [h for h in hand if h._val != pair]
-            mode_2 = mode([n._val for n in hand])
-            if mode_2[1][0] > 1:
-                pair2 = mode_2[0][0]
+            mode_2 = self.get_mode([n._val for n in hand])
+            if mode_2[0][0] > 1:
+                pair2 = mode_2[0][1]
                 hand = [h for h in hand if h._val != pair2]
                 left = hand[0]
                 if pair > pair2:
@@ -105,3 +107,12 @@ class HandRules():
                 return (1, [VAL_MAP[pair]] + left)
         return None
         
+    def get_mode(self, my_list):
+        # Form a new list with the unique elements
+        unique_list = sorted(list(set(my_list)))
+        # Create a comprehensive dictionary with the uniques and their count
+        appearence = {a:my_list.count(a) for a in unique_list} 
+        # Calculate max number of appearences
+        max_app = max(appearence.values())
+        # Return the elements of the dictionary that appear that # of times
+        return [[v, k] for k, v in appearence.items() if v == max_app]
