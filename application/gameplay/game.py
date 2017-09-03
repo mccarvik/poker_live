@@ -36,6 +36,7 @@ class Game():
         self._button = (self._button + 1) % len(self._players)
         self._turn = (self._button + 3) % len(self._players)
         self._pot = 0
+        self._board = []
         
         self._current_bets = [0] * len(self._players)
         self._current_bets[(self._button + 1) % len(self._players)] = self._small_blind
@@ -72,19 +73,94 @@ class Game():
         if action[0] == 'ch':
             self.playerChecked()
         
+        if action[0] == 'f':
+            self.playerFolded()
+        
+        if action[0] == 'b':
+            self.playerBet(action[1])
+        
+        if action[0] == 'r':
+            self.playerBet(action[1])
+        
         return self.getSituation()
+    
+    def playerFolded(self):
+        self._players[self._turn]._cards = ''
+        if self.isEndOfRound():
+            if self.isEndOfHand():
+                self.cleanUp()
+                self.reset_hand()
+            else:
+                self.nextRound()
+        else:
+            self.nextTurn()
     
     def playerChecked(self):
         if self.isEndOfRound(check=True):
             if self.isEndOfHand():
-                pass
+                self.cleanUp()
+                self.reset_hand()
             else:
                 self.nextRound()
         else:
-            self._turn = (self._turn + 1) % len(self._players)
+            self.nextTurn()
+    
+    def playerCalled(self):
+        # make players current bet = the max bet on the table
+        self._players[self._turn]._money -= max(self._current_bets) - self._current_bets[self._turn]
+        self._current_bets[self._turn] = max(self._current_bets)
+        
+        if self.isEndOfRound():
+            if self.isEndOfHand():
+                self.cleanUp()
+                self.reset_hand()
+            else:
+                self.nextRound()
+        else:
+            self.nextTurn()
+    
+    def playerBet(self, bet):
+        self._players[self._turn]._money -= bet
+        self._current_bets[self._turn] += bet
+        self.nextTurn()
     
     def isEndOfHand(self):
+        if len(self.getIDsPlayersLeft()) == 1:
+            return True
+        
+        if len(self._board) == 5:
+            return True
+        
         return False
+    
+    def isEndOfRound(self, check=False):
+        # Check if a turn is over
+        max_bet = max(self._current_bets)
+        
+        # Case one hand left
+        if len(self.getIDsPlayersLeft()) == 1:
+            return True
+        
+        # Case checks all around or big blind checks
+        if (check and self._turn == self.getLastPlayer()):
+            return True
+        elif (check and max_bet == 0):
+            return False
+        
+        # Case all calls
+        for i in self.getIDsPlayersLeft():
+            if self._current_bets[i] != max_bet:
+                return False
+        
+        # Case for calls on opening round but no big blind check
+        if len(self._board) == 0 and not check and max_bet == self._small_blind * 2:
+            return False
+        
+        return True
+    
+    def cleanUp(self):
+        p_id = self.getIDsPlayersLeft()[0]
+        self._players[p_id]._money += sum(self._current_bets) + self._pot
     
     def nextRound(self):
         self._pot += sum(self._current_bets)
@@ -94,20 +170,17 @@ class Game():
             self.deal_board_card(3)
         else:
             self.deal_board_card(1)
-        
     
-    def playerCalled(self):
-        # make players current bet = the max bet on the table
-        self._players[self._turn]._money -= max(self._current_bets) - self._current_bets[self._turn]
-        self._current_bets[self._turn] = max(self._current_bets)
-        
-        if self.isEndOfRound():
-            pass
-        else:
-            self._turn = (self._turn + 1) % len(self._players)
+    def nextTurn(self):
+        next_t = None
+        for i in self.getIDsPlayersLeft():
+            if i > self._turn:
+                self._turn = i
+                return
+        self._turn = self.getIDsPlayersLeft()[0]
     
     def getIDsPlayersLeft(self):
-        hands = [x for x in self._players if str(x._cards[0]) != '']
+        hands = [x for x in self._players if x.has_cards()]
         return ([x._id for x in hands])
     
     def getFirstPlayer(self):
@@ -116,33 +189,18 @@ class Game():
                 return p
     
     def getLastPlayer(self):
+        last = ""
         if self._board != []:
+            pdb.set_trace()
             for p in self.getIDsPlayersLeft():
                 if p <= self._button:
                     last = p
-            return last
+            if last != "":
+                return last
+            else:
+                return self.getIDsPlayersLeft()[-1]
         else:
             return (self._button + 2) % len(self._players)
-    
-    def isEndOfRound(self, check=False):
-        # Check if a turn is over
-        max_bet = self._current_bets
-        
-        # Case one hand left
-        hands = [x for x in self._players if str(x._cards[0]) != '']
-        if len(hands) == 1:
-            return True
-        
-        # Case checks all around or big blind checks
-        if (check and self._turn == self.getLastPlayer()):
-            return True
-        
-        # Case all calls
-        for i in self.getIDsPlayersLeft():
-            if self._current_bets[i] != max_bet:
-                return False
-        
-        return True
     
     def getSituation(self):
         situation = {}
@@ -170,15 +228,14 @@ if __name__ == '__main__':
     game.accept_action(['s',0,0])
     print(game.getSituation())
     
-    pdb.set_trace()
-    game.accept_action(['c',0,3])
-    game.accept_action(['c',0,0])
-    print(game.accept_action(['c',0,1]))
-    print(game.accept_action(['ch',0,2]))
-    game.accept_action(['ch',0,1])
-    game.accept_action(['ch',0,2])
-    game.accept_action(['ch',0,3])
-    print(game.accept_action(['ch',0,0]))
+    while True:
+        action = input("next move:  ").split(" ")
+        if action[0] == "q":
+            break
+        if len(action) == 2:
+            action[1] = int(action[1])
+        game.accept_action(action)
+        print(game.getSituation())
     
     pdb.set_trace()
     print('')
