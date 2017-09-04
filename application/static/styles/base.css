@@ -20,7 +20,7 @@ div#config_div {
 div#action_div {
     position : absolute;
     left : 270px;
-    top : 450px;
+    top : 420px;
 }
 
 img.card_img {
@@ -32,27 +32,27 @@ img.card_img {
 
 .card_img#board1 {
     left : 260px;
-    top : 290px;
+    top : 280px;
 }
 
 .card_img#board2 {
     left : 360px;
-    top : 290px;    
+    top : 280px;    
 }
 
 .card_img#board3 {
     left : 460px;
-    top : 290px;
+    top : 280px;
 }
 
 .card_img#board4 {
     left : 560px;
-    top : 290px;
+    top : 280px;
 }
 
 .card_img#board5 {
     left : 660px;
-    top : 290px;
+    top : 280px;
 }
 
 .card_img#pl_card_11 {
@@ -73,4 +73,20 @@ img.card_img {
 .card_img#pl_card_22 {
     left : 560px;
     top : 100px;
+}
+
+#dealer {
+    position : absolute;
+    left : 350px;
+    top : 225px;
+    height : 35px;
+    width : 35px;
+}
+
+.chip_img {
+    position : absolute;
+    left : 390px;
+    top : 225px;
+    height : 35px;
+    width : 35px;
 }
