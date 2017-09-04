@@ -95,35 +95,32 @@
         $scope.send_action = function(action, bet, player) {
             console.log('Action function: ' + action + " " + bet + " " + player);
             var breaker = false;
-            while (true) {
-                var template_returned = false;
-                $.ajax({
-                    type: 'POST',
-                    // timeout: 60000,
-                    url: '/action',
-                    data: {
-                        action: action,
-                        bet: bet,
-                        player: player
-                    },
-                }).done(function(data, textStatus, jqXHR, aaa) {
-                    console.log('Received Update');
-                    data = JSON.parse(data);
-                    if (action === 'j') {
-                        $scope.id = parseInt(data['player_id']);
-                    }
-                    
-                    $scope.process_response(data);
-                    
-                    if ($scope['turn'] === $scope.id) {
-                            breaker=true;
-                    }
-                    template_returned = true;
-                });
-                if (!template_returned || breaker) {
-                    break;
+            $.ajax({
+                type: 'POST',
+                // timeout: 60000,
+                url: '/action',
+                data: {
+                    action: action,
+                    bet: bet,
+                    player: player
+                },
+            }).done(function(data, textStatus, jqXHR, aaa) {
+                console.log('Received Update');
+                data = JSON.parse(data);
+                if (action === 'j') {
+                    $scope.id = parseInt(data['player_id']);
                 }
-            }
+                
+                $scope.process_response(data);
+                
+                if ($scope['turn'] === $scope.id || !$scope['game_started']) {
+                    breaker=true;
+                }
+                
+                if (!breaker) {
+                    $scope.send_action('w',0,$scope.id)
+                }
+            });
         }
         
         $scope.process_response = function(game_state) {
@@ -146,19 +143,20 @@
                     }
                 }
                 
+                var board = game_state['board'];
+                for (var i=0; i < board.length; i++) {
+                    $scope.cards['board'+i] = 'static/imgs/' + board[i].toUpperCase() + ".png";
+                }
+                
                 var current_bets = game_state['current_bets'];
                 for (var i=0; i < current_bets.length; i++) {
                     $scope.bets[i] = current_bets[i];
                 }
                 
-                var board = game_state['board'];
-                for (var i=0; i < board.length; i++) {
-                    $scope.cards['board'+i] = board[i];
-                }
-                
                 $scope.pot = game_state['pot'];
                 $scope.button = game_state['button'];
                 $scope.turn = game_state['turn'];
+                $scope.game_started = game_state['game_started'];
                 
                 // Set dealer button location
                 if ($scope.button >= 0) {
@@ -171,8 +169,8 @@
                     var chip_id = "#chip" + i;
                     var label_id = "#chip_label" + i;
                     if ($scope.bets[i] == 0) {
-                        $( chip_id ).css( "display", "hidden" );
-                        $( label_id ).css( "display", "hidden" );
+                        $( chip_id ).css( "visibility", "hidden" );
+                        $( label_id ).css( "visibility", "hidden" );
                     } else {
                         $( chip_id ).css( "visibility", "visible" );
                         $( label_id ).css( "visibility", "visible" );

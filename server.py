@@ -39,7 +39,8 @@ class PokerServerProtocol(asyncio.Protocol):
 
         print(situation)
         # If player just joined, wait for someone to push the "start game" button
-        if msgs[0].decode('utf-8').split(",")[0] == 'j' and game.is_game_start():
+        if (msgs[0].decode('utf-8').split(",")[0] == 'j' and game.is_game_start()) or \
+            msgs[0].decode('utf-8').split(",")[0] == 'w':
             return
         game.start_game()
         # pdb.set_trace()

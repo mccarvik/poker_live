@@ -30,27 +30,27 @@ img.card_img {
     padding : 5px;    
 }
 
-.card_img#board1 {
+.card_img#board0 {
     left : 260px;
     top : 280px;
 }
 
-.card_img#board2 {
+.card_img#board1 {
     left : 360px;
     top : 280px;    
 }
 
-.card_img#board3 {
+.card_img#board2 {
     left : 460px;
     top : 280px;
 }
 
-.card_img#board4 {
+.card_img#board3 {
     left : 560px;
     top : 280px;
 }
 
-.card_img#board5 {
+.card_img#board4 {
     left : 660px;
     top : 280px;
 }

@@ -227,6 +227,7 @@ class Game():
         situation['pot'] = self._pot
         situation['turn'] = self._turn
         situation['players'] = self.playerSituation()
+        situation['game_started'] = self._start
         return situation
     
     def playerSituation(self):
