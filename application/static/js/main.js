@@ -157,6 +157,12 @@
                     $scope.cards['board'+i] = 'static/imgs/' + board[i].toUpperCase() + ".png";
                 }
                 
+                if (board.length === 0) {
+                    for (var i=0; i < 5; i++) {
+                        $scope.cards['board'+i] = "";
+                    }
+                }
+                
                 var current_bets = game_state['current_bets'];
                 for (var i=0; i < current_bets.length; i++) {
                     $scope.bets[i] = current_bets[i];

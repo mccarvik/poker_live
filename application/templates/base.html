@@ -28,18 +28,23 @@
         </div>
         
         <img id='dealer' class='dealer_img' src="static/imgs/dealer.png"/>
+        <img id='pot' class='pot_img' src="static/imgs/chip_stack.png"/>
+        <label id='pot_label' class='pot_label'> {[ pot ]} </label>
         
         <img id='chip0' class='chip_img' src="static/imgs/chip.png"/>
-        <label id='chip_label0' class='chip_label'>100</label> 
+        <label id='chip_label0' class='chip_label'></label>
         <img id='chip1' class='chip_img' src="static/imgs/chip.png"/>
-        <label id='chip_label1' class='chip_label'>100</label> 
+        <label id='chip_label1' class='chip_label'></label> 
         
         <!--Card Images have absolute locations-->
-        <img id='board0' class='card_img' ng-src="{[ cards['board0'] ]}"/>
-        <img id='board1' class='card_img' ng-src="{[ cards['board1'] ]}"/>
-        <img id='board2' class='card_img' ng-src="{[ cards['board2'] ]}"/>
-        <img id='board3' class='card_img' ng-src="{[ cards['board3'] ]}"/>
-        <img id='board4' class='card_img' ng-src="{[ cards['board4'] ]}"/>
+        <img id='board0' class='card_img' ng-show="cards['board0']" ng-src="{[ cards['board0'] ]}"/>
+        <img id='board1' class='card_img' ng-show="cards['board1']" ng-src="{[ cards['board1'] ]}"/>
+        <img id='board2' class='card_img' ng-show="cards['board2']" ng-src="{[ cards['board2'] ]}"/>
+        <img id='board3' class='card_img' ng-show="cards['board3']" ng-src="{[ cards['board3'] ]}"/>
+        <img id='board4' class='card_img' ng-show="cards['board4']" ng-src="{[ cards['board4'] ]}"/>
+        
+        <label id='pl_money_0' class='money_lab'>Player 1: {[ money[0] ]}</label>
+        <label id='pl_money_1' class='money_lab'>Player 2: {[ money[1] ]}</label>
         
         
         <img id='pl_card_01' class='card_img' ng-src="{[ cards['01'] ]}"/>

@@ -25,6 +25,7 @@ class Game():
         self._pot = 0
         self._small_blind = 5
         self._current_bets = [0] * len(self._players)
+        self._msg = ""
     
     # Need these two for game flow when game first created
     def start_game(self):
@@ -50,7 +51,7 @@ class Game():
     
     def deal_board_card(self, num=1):
         for n in range(num):
-            self._board.append(str(self._deck.drawRandom()))
+            self._board.append(self._deck.drawRandom())
     
     def deal_cards(self):
         for p in self._players:
@@ -63,27 +64,38 @@ class Game():
         self._players.append(p)
     
     def accept_action(self, action):
+        
+        msg = "no action taken"
         if action[0] == 'j':
+            msg = "Player %s has joined the game" % str(int(action[2]) + 1)
             self.add_player(action[2], action[1])
     
         if action[0] == 's':
+            msg = "Player %s has started the game" % str(int(action[2]) + 1)
             self.reset_hand()
-        
+            
         if action[0] == 'c':
+            msg = "Player %s has called" % str(int(action[2]) + 1)
             self.playerCalled()
-        
+            
         if action[0] == 'ch':
+            msg = "Player %s has checked" % str(int(action[2]) + 1)
             self.playerChecked()
-        
+            
         if action[0] == 'f':
+            msg = "Player %s has folded" % str(int(action[2]) + 1)
             self.playerFolded()
-        
+            
         if action[0] == 'b':
+            msg = "Player {0} has bet {1}".format(str(int(action[2]) + 1), action[1])
             self.playerBet(float(action[1]))
+
         
         if action[0] == 'r':
+            msg = "Player {0} has raised to {1}".format(str(int(action[2]) + 1), action[1])
             self.playerBet(float(action[1]))
         
+        self._msg = msg
         return self.getSituation()
     
     def playerFolded(self):
@@ -164,7 +176,6 @@ class Game():
         if len(self.getIDsPlayersLeft()) == 1:
             p_id = self.getIDsPlayersLeft()[0]
         else:
-            pdb.set_trace()
             res = []
             for p in self.getIDsPlayersLeft():
                 res.append(HandRules(self._players[p]._cards + self._board)._result)
@@ -222,12 +233,13 @@ class Game():
     def getSituation(self):
         situation = {}
         situation['current_bets'] = self._current_bets
-        situation['board'] = self._board
+        situation['board'] = [str(b) for b in self._board]
         situation['button'] = self._button
         situation['pot'] = self._pot
         situation['turn'] = self._turn
         situation['players'] = self.playerSituation()
         situation['game_started'] = self._start
+        situation['msg'] = self._msg
         return situation
     
     def playerSituation(self):
