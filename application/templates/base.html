@@ -18,13 +18,13 @@
             <button id='join_btn' class='btn btn-basic' ng-click="send_action('j', '1000')">Join Game</button>
             <button id='start_btn' class='btn btn-basic' ng-click="send_action('s', '0')">Start Game</button>
         <div id='action_div'>
-            <button id='check_btn' class='btn btn-info' ng-click="send_action('ch', '0')">Check</button>
-            <button id='bet_btn' class='btn btn-warning' ng-click="send_action('b', '50')">Bet</button>
-            <input type="text" class='input_text' id="bet_text">
-            <button id='call_btn' class='btn btn-primary' ng-click="send_action('c', '50')">Call</button>
-            <button id='raise_btn' class='btn btn-warning' ng-click="send_action('r', '100')">Raise</button>
-            <input type="text" class='input_text' id="raise_text">
-            <button id='fold_btn' class='btn btn-danger' ng-click="send_action('f', '0')">Fold</button>
+            <button id='check_btn' class='action_btn btn btn-info' ng-click="send_action('ch', '0')">Check</button>
+            <button id='bet_btn' class='action_btn btn btn-warning' ng-click="send_action('b', '50')">Bet</button>
+            <input type="text" class='action_btn input_text' id="bet_text">
+            <button id='call_btn' class='action_btn btn btn-primary' ng-click="send_action('c', '50')">Call</button>
+            <button id='raise_btn' class='action_btn btn btn-warning' ng-click="send_action('r', '100')">Raise</button>
+            <input type="text" class='action_btn input_text' id="raise_text">
+            <button id='fold_btn' class='action_btn btn btn-danger' ng-click="send_action('f', '0')">Fold</button>
         </div>
         
         <img id='dealer' class='dealer_img' src="static/imgs/dealer.png"/>

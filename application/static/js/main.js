@@ -95,6 +95,15 @@
         $scope.send_action = function(action, bet, player) {
             console.log('Action function: ' + action + " " + bet + " " + player);
             var breaker = false;
+            
+            if (action === 'b') {
+                bet = parseInt($( '#bet_text').val());
+            }
+            
+            if (action === 'r') {
+                bet = parseInt($( '#raise_text').val())
+            }
+            
             $.ajax({
                 type: 'POST',
                 // timeout: 60000,
@@ -177,6 +186,36 @@
                         $( label_id ).text($scope.bets[i]);
                     }
                 }
+                
+                // Set button options
+                if ($scope['turn'] !== $scope.id) {
+                    $( '#check_btn' ).css( "visibility", "hidden" );
+                    $( '#call_btn' ).css( "visibility", "hidden" );
+                    $( '#fold_btn' ).css( "visibility", "hidden" );
+                    $( '#bet_btn' ).css( "visibility", "hidden" );
+                    $( '#raise_btn' ).css( "visibility", "hidden" );
+                    $( '#bet_text' ).css( "visibility", "hidden" );
+                    $( '#raise_text' ).css( "visibility", "hidden" );
+                } else {
+                    if ($scope.bets[$scope.id] === Math.max(...Object.values($scope.bets))) {
+                        $( '#check_btn' ).css( "visibility", "visible" );
+                        $( '#bet_btn' ).css( "visibility", "visible" );
+                        $( '#bet_text' ).css( "visibility", "visible" );
+                        $( '#call_btn' ).css( "visibility", "hidden" );
+                        $( '#fold_btn' ).css( "visibility", "hidden" );
+                        $( '#raise_btn' ).css( "visibility", "hidden" );
+                        $( '#raise_text' ).css( "visibility", "hidden" );
+                    } else {
+                        $( '#call_btn' ).css( "visibility", "visible" );
+                        $( '#fold_btn' ).css( "visibility", "visible" );
+                        $( '#raise_btn' ).css( "visibility", "visible" );
+                        $( '#raise_text' ).css( "visibility", "visible" );
+                        $( '#check_btn' ).css( "visibility", "hidden" );
+                        $( '#bet_btn' ).css( "visibility", "hidden" );
+                        $( '#bet_text' ).css( "visibility", "hidden" );
+                    }
+                }
+                
             });
         }
     })

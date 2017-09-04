@@ -79,10 +79,10 @@ class Game():
             self.playerFolded()
         
         if action[0] == 'b':
-            self.playerBet(action[1])
+            self.playerBet(float(action[1]))
         
         if action[0] == 'r':
-            self.playerBet(action[1])
+            self.playerBet(float(action[1]))
         
         return self.getSituation()
     

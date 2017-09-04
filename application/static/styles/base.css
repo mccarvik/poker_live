@@ -5,6 +5,10 @@ body {
     background-size: 1000px 750px
 }
 
+.action_btn {
+    visibility : hidden;
+}
+
 div#config_div {
     margin : 25px;
 }
