@@ -27,9 +27,12 @@
             <button id='fold_btn' class='btn btn-danger' ng-click="send_action('f', '0')">Fold</button>
         </div>
         
-        <img id='dealer' class='dealer_img' src="static/imgs/dealer.jpg"/>
+        <img id='dealer' class='dealer_img' src="static/imgs/dealer.png"/>
         
-        <img id='chip1' class='chip_img' src="static/imgs/chip.jpg"/>
+        <img id='chip0' class='chip_img' src="static/imgs/chip.png"/>
+        <label id='chip_label0' class='chip_label'>100</label> 
+        <img id='chip1' class='chip_img' src="static/imgs/chip.png"/>
+        <label id='chip_label1' class='chip_label'>100</label> 
         
         <!--Card Images have absolute locations-->
         <img id='board1' class='card_img' ng-src=""/>
@@ -38,9 +41,9 @@
         <img id='board4' class='card_img' ng-src=""/>
         <img id='board5' class='card_img' ng-src=""/>
         
-        <img id='pl_card_11' class='card_img' ng-src="{[ cards['01'] ]}"/>
-        <img id='pl_card_12' class='card_img' ng-src="{[ cards['02'] ]}"/>
-        <img id='pl_card_21' class='card_img' ng-src="{[ cards['11'] ]}"/>
-        <img id='pl_card_22' class='card_img' ng-src="{[ cards['12'] ]}"/>
+        <img id='pl_card_01' class='card_img' ng-src="{[ cards['01'] ]}"/>
+        <img id='pl_card_02' class='card_img' ng-src="{[ cards['02'] ]}"/>
+        <img id='pl_card_11' class='card_img' ng-src="{[ cards['11'] ]}"/>
+        <img id='pl_card_12' class='card_img' ng-src="{[ cards['12'] ]}"/>
     </body>
 </html>

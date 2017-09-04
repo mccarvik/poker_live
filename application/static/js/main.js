@@ -72,26 +72,29 @@
             '0' : null,
         }
         $scope.bets = {
-            '1' : null,
-            '2' : null,
-            '3' : null,
-            '4' : null,
-            '5' : null,
-            '6' : null,
-            '7' : null,
-            '8' : null,
-            '9' : null,
-            '0' : null,
+            '1' : 0,
+            '2' : 0,
+            '3' : 0,
+            '4' : 0,
+            '5' : 0,
+            '6' : 0,
+            '7' : 0,
+            '8' : 0,
+            '9' : 0,
+            '0' : 0,
         }
         $scope.pot = 0;
         $scope.button = 0
         $scope.turn = 0
         
+        var dealer_locs = {
+            0 : [350, 225],
+            1 : [540, 225]
+        };    
         
         $scope.send_action = function(action, bet, player) {
             console.log('Action function: ' + action + " " + bet + " " + player);
             var breaker = false;
-            var turn = 1;
             while (true) {
                 var template_returned = false;
                 $.ajax({
@@ -109,8 +112,10 @@
                     if (action === 'j') {
                         $scope.id = parseInt(data['player_id']);
                     }
+                    
                     $scope.process_response(data);
-                    if ($scope['turn'] === turn) {
+                    
+                    if ($scope['turn'] === $scope.id) {
                             breaker=true;
                     }
                     template_returned = true;
@@ -152,10 +157,29 @@
                 }
                 
                 $scope.pot = game_state['pot'];
-                $scope.pot = game_state['button'];
-                $scope.pot = game_state['turn'];
+                $scope.button = game_state['button'];
+                $scope.turn = game_state['turn'];
+                
+                // Set dealer button location
+                if ($scope.button >= 0) {
+                    $('#dealer').css('left', dealer_locs[$scope.button][0]);
+                    $('#dealer').css('top', dealer_locs[$scope.button][1]);
+                }
+                
+                // set chip images
+                for (var i=0; i < Object.keys($scope.bets).length; i++) {
+                    var chip_id = "#chip" + i;
+                    var label_id = "#chip_label" + i;
+                    if ($scope.bets[i] == 0) {
+                        $( chip_id ).css( "display", "hidden" );
+                        $( label_id ).css( "display", "hidden" );
+                    } else {
+                        $( chip_id ).css( "visibility", "visible" );
+                        $( label_id ).css( "visibility", "visible" );
+                        $( label_id ).text($scope.bets[i]);
+                    }
+                }
             });
-            console.log($scope.cards);
         }
     })
 

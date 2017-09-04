@@ -50,7 +50,7 @@ class Game():
     
     def deal_board_card(self, num=1):
         for n in range(num):
-            self._board.append(self._deck.drawRandom())
+            self._board.append(str(self._deck.drawRandom()))
     
     def deal_cards(self):
         for p in self._players:

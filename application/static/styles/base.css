@@ -55,22 +55,22 @@ img.card_img {
     top : 280px;
 }
 
-.card_img#pl_card_11 {
+.card_img#pl_card_01 {
     left : 350px;
     top : 100px;
 }
 
-.card_img#pl_card_12 {
+.card_img#pl_card_02 {
     left : 370px;
     top : 100px;
 }
 
-.card_img#pl_card_21 {
+.card_img#pl_card_11 {
     left : 540px;
     top : 100px;
 }
 
-.card_img#pl_card_22 {
+.card_img#pl_card_12 {
     left : 560px;
     top : 100px;
 }
@@ -85,8 +85,38 @@ img.card_img {
 
 .chip_img {
     position : absolute;
-    left : 390px;
-    top : 225px;
     height : 35px;
     width : 35px;
+}
+
+.chip_label {
+    display: block;
+    text-align: center;
+    position : absolute;
+    width : 35px;
+    color : black;
+}
+
+#chip0 {
+    left : 410px;
+    top : 225px;
+    visibility : hidden;
+}
+
+#chip_label0 {
+    left : 410px;
+    top : 230px;
+    visibility : hidden;
+}
+
+#chip1 {
+    left : 600px;
+    top : 225px;
+    visibility : hidden;
+}
+
+#chip_label1 {
+    left : 600px;
+    top : 230px;
+    visibility : hidden;
 }
