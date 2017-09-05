@@ -24,7 +24,7 @@ class Game():
         self._turn = -1
         self._pot = 0
         self._small_blind = 5
-        self._current_bets = [0] * len(self._players)
+        self._current_bets = [0] * 10
         self._msg = ""
     
     # Need these two for game flow when game first created
@@ -36,16 +36,17 @@ class Game():
     
     def reset_hand(self):
         self._deck.initialize()
-        self._button = (self._button + 1) % len(self._players)
-        self._turn = (self._button + 3) % len(self._players)
+        self._button = self.nextPlayer(self._button)
+        self._turn = self.nextPlayer(self.nextPlayer(self.nextPlayer(self._button)))
         self._pot = 0
         self._board = []
         
-        self._current_bets = [0] * len(self._players)
-        self._current_bets[(self._button + 1) % len(self._players)] = self._small_blind
-        self._players[(self._button + 1) % len(self._players)]._money -= self._small_blind
-        self._current_bets[(self._button + 2) % len(self._players)] = self._small_blind * 2
-        self._players[(self._button + 2) % len(self._players)]._money -= self._small_blind * 2
+        self._current_bets = [0] * 10
+        self._current_bets[self.nextPlayer(self._button)] = self._small_blind
+        self.getPlayerByID(self.nextPlayer(self._button))._money -= self._small_blind
+        
+        self._current_bets[self.nextPlayer(self.nextPlayer(self._button))] = self._small_blind * 2
+        self.getPlayerByID(self.nextPlayer(self.nextPlayer(self._button)))._money -= self._small_blind * 2
         
         self.deal_cards()
     
@@ -121,7 +122,7 @@ class Game():
     
     def playerCalled(self):
         # make players current bet = the max bet on the table
-        self._players[self._turn]._money -= max(self._current_bets) - self._current_bets[self._turn]
+        self.getPlayerByID(self._turn)._money -= max(self._current_bets) - self._current_bets[self._turn]
         self._current_bets[self._turn] = max(self._current_bets)
         
         if self.isEndOfRound():
@@ -134,7 +135,7 @@ class Game():
             self.nextTurn()
     
     def playerBet(self, bet):
-        self._players[self._turn]._money -= bet
+        self.getPlayerByID(self._turn)._money -= bet
         self._current_bets[self._turn] += bet
         self.nextTurn()
     
@@ -178,22 +179,22 @@ class Game():
         else:
             res = []
             for p in self.getIDsPlayersLeft():
-                res.append(HandRules(self._players[p]._cards + self._board)._result)
+                res.append(HandRules(self.getPlayerByID(p)._cards + self._board)._result)
             winner = evaluateWinner(res)
         
         ties = len([x for x in winner if x==0])
         if ties > 0:
             for w, p in zip(winner, self.getIDsPlayersLeft()):
                 if w == 0:
-                    self._players[p]._money += (sum(self._current_bets) + self._pot) / ties
+                    self.getPlayerByID(p)._money += (sum(self._current_bets) + self._pot) / ties
         else:
             for w, p in zip(winner, self.getIDsPlayersLeft()):
                 if w == 1:
-                    self._players[p]._money += (sum(self._current_bets) + self._pot)
+                    self.getPlayerByID(p)._money += (sum(self._current_bets) + self._pot)
     
     def nextRound(self):
         self._pot += sum(self._current_bets)
-        self._current_bets = [0] * len(self._players)
+        self._current_bets = [0] * 10
         self._turn = self.getFirstPlayer()
         if self._board == []:
             self.deal_board_card(3)
@@ -207,6 +208,12 @@ class Game():
                 self._turn = i
                 return
         self._turn = self.getIDsPlayersLeft()[0]
+    
+    def nextPlayer(self, player_id):
+        for i in sorted([pl._id for pl in self._players]):
+            if i > player_id:
+                return i
+        return sorted([pl._id for pl in self._players])[0]
     
     def getIDsPlayersLeft(self):
         hands = [x for x in self._players if x.has_cards()]
@@ -247,6 +254,9 @@ class Game():
         for p in self._players:
             plys.append(p.info())
         return plys
+        
+    def getPlayerByID(self, pl_id):
+        return [p for p in self._players if p._id == pl_id][0]
 
 if __name__ == '__main__':
     # Simulate the start of a game
