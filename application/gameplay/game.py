@@ -65,42 +65,39 @@ class Game():
         self._players.append(p)
     
     def accept_action(self, action):
-        
-        msg = "no action taken"
+        self._msg = "no action taken"
         if action[0] == 'j':
-            msg = "Player %s has joined the game" % str(int(action[2]) + 1)
+            self._msg = "Player %s has joined the game" % str(int(action[2]) + 1)
             self.add_player(action[2], action[1])
     
         if action[0] == 's':
-            msg = "Player %s has started the game" % str(int(action[2]) + 1)
+            self._msg = "Player %s has started the game" % str(int(action[2]) + 1)
             self.reset_hand()
             
         if action[0] == 'c':
-            msg = "Player %s has called" % str(int(action[2]) + 1)
+            self._msg = "Player %s has called" % str(self._turn + 1)
             self.playerCalled()
             
         if action[0] == 'ch':
-            msg = "Player %s has checked" % str(int(action[2]) + 1)
+            self._msg = "Player %s has checked" % str(self._turn + 1)
             self.playerChecked()
             
         if action[0] == 'f':
-            msg = "Player %s has folded" % str(int(action[2]) + 1)
+            self._msg = "Player %s has folded" % str(self._turn + 1)
             self.playerFolded()
             
         if action[0] == 'b':
-            msg = "Player {0} has bet {1}".format(str(int(action[2]) + 1), action[1])
+            self._msg = "Player {0} has bet {1}".format(str(self._turn + 1), action[1])
             self.playerBet(float(action[1]))
 
-        
         if action[0] == 'r':
-            msg = "Player {0} has raised to {1}".format(str(int(action[2]) + 1), action[1])
+            self._msg = "Player {0} has raised to {1}".format(str(self._turn + 1), action[1])
             self.playerBet(float(action[1]))
         
-        self._msg = msg
         return self.getSituation()
     
     def playerFolded(self):
-        self._players[self._turn]._cards = ''
+        self.getPlayerByID(self._turn)._cards = ''
         if self.isEndOfRound():
             if self.isEndOfHand():
                 self.cleanUp()
@@ -176,21 +173,26 @@ class Game():
     def cleanUp(self):
         if len(self.getIDsPlayersLeft()) == 1:
             p_id = self.getIDsPlayersLeft()[0]
+            self.getPlayerByID(p_id)._money += (sum(self._current_bets) + self._pot)
+            self._msg = "Player {0} won the hand, the pot was {1}".format(str(p_id+1), (sum(self._current_bets) + self._pot))
         else:
             res = []
             for p in self.getIDsPlayersLeft():
                 res.append(HandRules(self.getPlayerByID(p)._cards + self._board)._result)
             winner = evaluateWinner(res)
         
-        ties = len([x for x in winner if x==0])
-        if ties > 0:
-            for w, p in zip(winner, self.getIDsPlayersLeft()):
-                if w == 0:
-                    self.getPlayerByID(p)._money += (sum(self._current_bets) + self._pot) / ties
-        else:
-            for w, p in zip(winner, self.getIDsPlayersLeft()):
-                if w == 1:
-                    self.getPlayerByID(p)._money += (sum(self._current_bets) + self._pot)
+            ties = len([x for x in winner if x==0])
+            
+            if ties > 0:
+                for w, p in zip(winner, self.getIDsPlayersLeft()):
+                    if w == 0:
+                        self.getPlayerByID(p)._money += (sum(self._current_bets) + self._pot) / ties
+                        self._msg = "Hand was a tie, the pot was {0}".format(self._pot)
+            else:
+                for w, p in zip(winner, self.getIDsPlayersLeft()):
+                    if w == 1:
+                        self.getPlayerByID(p)._money += (sum(self._current_bets) + self._pot)
+                        self._msg = "Player {0} won the hand, the pot was {1}".format(str(p+1), (sum(self._current_bets) + self._pot))
     
     def nextRound(self):
         self._pot += sum(self._current_bets)
@@ -262,9 +264,9 @@ if __name__ == '__main__':
     # Simulate the start of a game
     game = Game()
     game.accept_action(['j',1000,0])
-    game.accept_action(['j',1000,1])
-    game.accept_action(['j',1000,2])
-    game.accept_action(['j',1000,3])
+    game.accept_action(['j',1000,4])
+    game.accept_action(['j',1000,5])
+    game.accept_action(['j',1000,6])
     game.accept_action(['s',0,0])
     print(game.getSituation())
     

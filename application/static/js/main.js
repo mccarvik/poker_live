@@ -84,8 +84,9 @@
             '0' : 0,
         }
         $scope.pot = 0;
-        $scope.button = 0
-        $scope.turn = 0
+        $scope.button = 0;
+        $scope.turn = 0;
+        $scope.msg = "Welcome to the Game";
         
         var dealer_locs = {
             0 : [350, 225],
@@ -134,6 +135,7 @@
         
         $scope.process_response = function(game_state) {
             console.log(game_state);
+            $scope.msg = game_state['msg'];
             
             $scope.$apply(function() {
                 // Set up players

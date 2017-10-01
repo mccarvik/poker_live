@@ -379,3 +379,14 @@ img.card_img {
     left : 100px;
     top : 295px;
 }
+
+#msg {
+    left : 250px;
+    top : 35px;
+    display: block;
+    position : absolute;
+    text-align : center;
+    margin-left : 15px;
+    color : beige;
+}
+

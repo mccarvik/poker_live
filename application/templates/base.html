@@ -14,9 +14,13 @@
         <script src="static/js/main.js"></script>
     </head>
     <body ng-controller="PokerController">
+        
         <div id='config_div'>
             <button id='join_btn' class='btn btn-basic' ng-click="send_action('j', '1000')">Join Game</button>
             <button id='start_btn' class='btn btn-basic' ng-click="send_action('s', '0')">Start Game</button>
+            <label id='msg'> LAST ACTION: {[ msg ]} </label>
+        </div>
+
         <div id='action_div'>
             <button id='check_btn' class='action_btn btn btn-info' ng-click="send_action('ch', '0')">Check</button>
             <button id='bet_btn' class='action_btn btn btn-warning' ng-click="send_action('b', '50')">Bet</button>
@@ -26,6 +30,7 @@
             <input type="text" class='action_btn input_text' id="raise_text">
             <button id='fold_btn' class='action_btn btn btn-danger' ng-click="send_action('f', '0')">Fold</button>
         </div>
+        
         
         <img id='dealer' class='dealer_img' src="static/imgs/dealer.png"/>
         <img id='pot' class='pot_img' src="static/imgs/chip_stack.png"/>
