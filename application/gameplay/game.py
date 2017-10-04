@@ -267,6 +267,7 @@ if __name__ == '__main__':
     game.accept_action(['j',1000,4])
     game.accept_action(['j',1000,5])
     game.accept_action(['j',1000,6])
+    game.accept_action(['j',1000,7])
     game.accept_action(['s',0,0])
     print(game.getSituation())
     

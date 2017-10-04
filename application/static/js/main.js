@@ -90,7 +90,8 @@
         
         var dealer_locs = {
             0 : [350, 225],
-            1 : [540, 225]
+            1 : [540, 225],
+            2 : [725, 235],
         };    
         
         $scope.send_action = function(action, bet, player) {
